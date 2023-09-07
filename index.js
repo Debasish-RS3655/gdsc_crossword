@@ -36,10 +36,12 @@ app.post('/answer', (req, res) => {
 
 app.post("/winner_submission", (req, res) => {
     const { name, scholarid } = req.body;
+    console.log(req.body)
+    console.log(scholarid.length)
     if (!name || !scholarid) {
         res.json({ error: 'Invalid name or scholar id.' })
     }
-    else if (scholarid.length !== 6) {
+    else if (scholarid.length !== 7) {
         res.json({ error: 'Invalid scholar id.' })
     }
     else {
@@ -63,6 +65,16 @@ app.post("/winner_submission", (req, res) => {
             })
         }
     }
+})
+
+//option to get the leaderboards
+app.get("/leaderboards", (req, res) => {
+    res.render("leaderboards");
+})
+
+//post method to get the winners
+app.post("/get-winners", (req, res) => {
+    res.json(dataset);
 })
 
 //crossword answer
