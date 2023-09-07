@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <p> Congrats correct answer </p>
+    <form action="#">
+        <h2>Please enter the following about yourself</h2>
+        <label for="name">Your Name</label>
+        <input type="text" id="name"><br><br>
+        <label for="scholarid">Your Scholar ID</label>
+        <input type="text" id="scholarid"><br><br>
+        <input type="button" id="submitbtn" value="submit">
+    </form>
+    <br>
+    <div id="display"></div>
+</body>
+<script>
+    document.getElementById("submitbtn").addEventListener('click', () => {
+        fetch("./winner_submission", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({
+                name: document.getElementById("name").value,
+                scholarid: document.getElementById("scholarid").value
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.error) {
+                    document.getElementById("display").innerHTML = `
+                    Error in submission: ${res.error}`
+                }
+                else {
+                    document.getElementById("display").innerHTML = `
+                Your submission has been recorded: ${res.name}, ${res.scholarid}
+                `
+                }
+            })
+            .catch(err => console.error("Error in fetching:", err))
+    })
+</script>
+
+</html>

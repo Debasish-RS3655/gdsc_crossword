@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<h3>The question goes here</h3>
+<ol>
+    <li>question 1: </li>
+    <li>question 2: </li>
+    <li>question 3 </li>
+    <li>question 4: </li>
+    <li>question 5: </li>
+    <li>question 6: </li>
+</ol>
+<br>
+<label for="answerArea">Your answer: </label>
+<input type="text" id="answerArea">
+<br><br>
+<button id="submitBtn"> Submit your answer </button>
+<script>
+    document.getElementById("submitBtn").addEventListener('click', () => {
+        const answer = document.getElementById('answerArea').value;
+        fetch("./answer", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({
+                answer: answer
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                window.location.assign(res.redirect)
+            })
+            .catch(err => console.error("Error in fetching:", err))
+    })
+</script>
+
+</html>
