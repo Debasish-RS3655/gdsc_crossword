@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html>
 <h3>The question goes here</h3>
-<ol>
-    <li>question 1: </li>
-    <li>question 2: </li>
-    <li>question 3 </li>
-    <li>question 4: </li>
-    <li>question 5: </li>
-    <li>question 6: </li>
-</ol>
+<img src="/images/gdsc.png">
 <br>
 <label for="answerArea">Your answer: </label>
 <input type="text" id="answerArea">
 <br><br>
 <button id="submitBtn"> Submit your answer </button>
+<br>
+<div id="wrong">Incorrect Answer. Try again.</div>
 <br><br>
 <a href="/leaderboards"><button>Click to view the leaderboards</button></a>
 <script>
+    const wrongDisplay = document.getElementById("wrong");
+    wrongDisplay.style.visibility = 'hidden';
     document.getElementById("submitBtn").addEventListener('click', () => {
         const answer = document.getElementById('answerArea').value;
         fetch("./answer", {
@@ -31,7 +28,10 @@
         })
             .then(res => res.json())
             .then(res => {
-                window.location.assign(res.redirect)
+                if (res.redirect == 'incorrect') {
+                    document.getElementById('wrong').style.visibility = 'visible';
+                }
+                else window.location.assign(res.redirect)
             })
             .catch(err => console.error("Error in fetching:", err))
     })
